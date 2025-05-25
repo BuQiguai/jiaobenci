@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>baka的找路程序</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #444;
+            color: white;
+            border: 1px solid #666;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #555;
+        }
+        
+        #信息 {
+            margin-top: 10px;
+            color: #ccc;
+        }
+        
+        canvas {
+            border: 1px solid #333;
+            background-color: #111;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        
+        <div class="controls">
+            <button id="suijiyoujie">随机刷新有解关卡</button>
+            <button id="suiji">随机任意关卡</button>
+            <button id="chuang">创建空关卡</button>
+            <button id="xunlu">重试寻路</button>
+        </div>
+        
+        <div id="信息">-----------------</div>
+        
+        <canvas id="屏幕" width="800" height="608"></canvas>
+        <div class="controls">
+            <button id="起点">起点</button>
+            <button id="终点">终点</button>
+            <button id="空">空</button>
+            <button id="砖">砖</button>
+            <button id="刺上">刺上</button>
+            <button id="刺下">刺下</button>
+            <button id="刺左">刺左</button>
+            <button id="刺右">刺右</button>
+        </div>
+        <div id="信息2">选中 : 砖</div>
+        <div>注意 : 虽然是ic材质  但是寻路时并没有下落二段</div>
+        <div>注意2 : 寻路算法比较笨  如果找不到路可以试试点重试寻路  这将会通过更多的计算来再次寻路</div>
+    </div>
+    <script src="jiaobenci_2.js"></script>
+    <script src="随机刺阵生成.js"></script>
+    <script>
+        const 信息 = document.getElementById('信息');
+        const 信息2 = document.getElementById('信息2');
+        let 选中 = z
+        // 事件监听器
+        let 是否按住 = false
+        const canvas = document.getElementById('屏幕');
+        canvas.addEventListener('mousemove', e => {
+            if(是否按住 == false){
+                return;
+            }
+            const rect = e.target.getBoundingClientRect();
+            const x = 800 -(e.clientX - rect.left);
+            const y =  e.clientY - rect.top;
+            const cellSize = 32;
+            const row = Math.floor(y / cellSize);
+            const col = Math.floor(x / cellSize);
+            if (row >= 0 && row < 19 && col >= 0 && col < 25) {
+                if(选中 == qi){i
+                    di[cud.i][cud.j] = k
+                    cud = {i:row,j:col}
+                    di[cud.i][cud.j] = qi
+                }else if(选中 == zo){
+                    di[zod.i][zod.j] = k
+                    zod = {i:row,j:col}
+                    di[zod.i][zod.j] = zo
+                }else{
+                    di[row][col] = 选中;
+                }
+            }
+            绘制地图()
+
+
+        })
+        
+
+        canvas.addEventListener('mousedown', e => {
+            是否按住 = true
+            const rect = e.target.getBoundingClientRect();
+            const x = 800 -(e.clientX - rect.left);
+            const y =  e.clientY - rect.top;
+            const cellSize = 32;
+            const row = Math.floor(y / cellSize);
+            const col = Math.floor(x / cellSize);
+            if (row >= 0 && row < 19 && col >= 0 && col < 25) {
+                if(选中 == qi){i
+                    di[cud.i][cud.j] = k
+                    cud = {i:row,j:col}
+                    di[cud.i][cud.j] = qi
+                }else if(选中 == zo){
+                    di[zod.i][zod.j] = k
+                    zod = {i:row,j:col}
+                    di[zod.i][zod.j] = zo
+                }else{
+                    di[row][col] = 选中;
+                }
+            }
+            绘制地图()
+        })
+        canvas.addEventListener('mouseup', e => {
+            是否按住 = false
+            setTimeout(() =>{
+                全局路径 = [];
+                zhaodao = false;
+                jieshu = false;
+                jisuanliang = 0;
+                寻路限制 = 40000
+                youjie()
+                if(zhaodao){
+                    信息.textContent = '计算次数:'+jisuanliang;
+                    绘制路径()
+                    绘制色块()
+                }else{
+                    信息.textContent = '计算次数:'+jisuanliang;
+                    绘制色块()
+                }
+                
+            },10)
+        })
+
+
+        document.getElementById('suiji').addEventListener('click', (e)=>{
+            let canvas = document.getElementById('屏幕');
+            let ctx = canvas.getContext('2d');
+            信息.textContent = '--------------正在生成--------------';
+            changshicishu = 0
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            shengchengditu();
+
+            信息.textContent = '计算量:' + jisuanliang + "  状态:" + (zhaodao?"有解":"无解")+"  生成次数:"+ changshicishu;
+            绘制地图()
+            绘制路径()
+            if(zhaodao == false){
+                绘制色块()
+            }else{
+                绘制色块()
+            }
+        });
+        document.getElementById('suijiyoujie').addEventListener('click', () => {
+            let canvas = document.getElementById('屏幕');
+            let ctx = canvas.getContext('2d');
+            信息.textContent = '--------------正在生成--------------';
+            changshicishu = 0
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            shengchengditu(true);
+
+            信息.textContent = '计算量:' + jisuanliang + "  状态:" + (zhaodao?"有解":"无解")+"  生成次数:"+ changshicishu;
+            绘制地图()
+            绘制路径()
+            绘制色块()
+        });
+        document.getElementById('chuang').addEventListener('click', () => {
+            let canvas = document.getElementById('屏幕');
+            let ctx = canvas.getContext('2d');
+            信息.textContent = '--------------清空--------------';
+            changshicishu = 0
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 19; i++) {
+                for (let j = 0; j < 25; j++) {
+                    di[i][j] = k;
+                }
+            }
+            cud = {i:7,j:12}
+            zod = {i:5,j:12}
+            di[cud.i][cud.j] = qi
+            di[zod.i][zod.j] = zo
+            绘制地图()
+        })
+
+        document.getElementById('xunlu').addEventListener('click', () => {
+            绘制地图()
+            全局路径 = [];
+            zhaodao = false;
+            jieshu = false;
+            jisuanliang = 0;
+            寻路限制 = 1000000
+            youjie()
+            if(zhaodao){
+                信息.textContent = '计算次数:'+jisuanliang;
+                绘制路径()
+                绘制色块()
+            }else{
+                信息.textContent = '计算次数:'+jisuanliang;
+                绘制色块()
+            }
+        })
+                
+        document.getElementById('空').addEventListener('click', () => {
+            选中 = k;
+            信息2.textContent = '选中 : 空';
+        })
+        document.getElementById('砖').addEventListener('click', () => {
+            选中 = z;
+            信息2.textContent = '选中 : 砖';
+        })
+        document.getElementById('刺上').addEventListener('click', () => {
+            选中 = cw;
+            信息2.textContent = '选中 : 刺上';
+        })
+        document.getElementById('刺下').addEventListener('click', () => {
+            选中 = cs;
+            信息2.textContent = '选中 : 刺下';
+        })
+        document.getElementById('刺左').addEventListener('click', () => {
+            选中 = ca;
+            信息2.textContent = '选中 : 刺左';
+        })
+        document.getElementById('刺右').addEventListener('click', () => {
+            选中 = cd;
+            信息2.textContent = '选中 : 刺右';
+        })
+        document.getElementById('起点').addEventListener('click', () => {
+            选中 = qi;
+            信息2.textContent = '选中 : 起点';
+        })
+        document.getElementById('终点').addEventListener('click', () => {
+            选中 = zo;
+            信息2.textContent = '选中 : 终点';
+        })
+
+    </script>
+</body>
+</html>
