@@ -668,7 +668,6 @@ function youjie(youjiema){
                     +this.cishu+":"
                     +this.cishu
                 if(zhuangtanjingguo[key] == true){
-
                     //已经发生过了
                     return false
                 }
@@ -728,7 +727,6 @@ function youjie(youjiema){
                                 //顶头  速度归0
                             }else{
                                 //是刺  终止
-        
                                 if(ycw == cs && this.js!=0 &&  // 顶上的刺是朝下的
                                     di[this.i - 1][this.j+this.js] != z && sh.indexOf(di[this.i - 1][this.j+this.js]) == -1 //目标位置可走
                                     && (di[this.i][this.j+this.js] == k ||di[this.i][this.j+this.js] == cw || di[this.i][this.j+this.js] == (this.js == 1?cd:ca) )){ //水平上刺有缝隙
@@ -748,7 +746,8 @@ function youjie(youjiema){
                                     this.i -= 1
                                     延缓记录 = true
                                 }else{
-                                    return false;
+                                    //头上是刺的时候仅设置速度为0
+                                    this.is = 0
                                 }
                             }
         
