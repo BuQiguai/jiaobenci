@@ -919,7 +919,7 @@ function youjie(youjiema){
                     //已经找到了掉了随时可以结束
                     let hui = yunxingjump["huisu"]
                     let huisushuzi = 0
-                    console.log("回溯开始");                        
+                    //console.log("回溯开始");                        
                     while(hui != undefined && hui.shang != undefined){
                         全局路径.push(hui)
                         if(huisushuzi <= 9){
@@ -1206,7 +1206,7 @@ function youjie(youjiema){
 
         if(zhaodao == false){
             //如果有解
-            console.log("为啥不重置:"+youjiema);
+            //console.log("为啥不重置:"+youjiema);
             
             if(youjiema == true){
                 changshicishu ++

@@ -89,9 +89,7 @@ function 绘制数字() {
     }
 }
 
-绘制色块()
 
-绘制路径()
 function 坐标转换(i,j){
     return {i:800 - 32 * j - 16 , j:32 * i + 16}
 }
@@ -146,3 +144,60 @@ function 绘制色块(){
         }
     })
 }
+
+
+function 解析地图数据(str ,回调) {
+    console.log("解析");
+    
+    // 首先获取数据部分（假设原始字符串有多行，我们需要第三行）
+
+    console.log(str.split("\n")[4]);
+    let lines = str.split('\n');
+    let shuju = lines.length > 4 ? lines[4] : str; // 如果不足4行，则使用整个字符串
+    
+    // 分割数据为数组，并过滤掉空字符串
+    let dataArray = shuju.split(' ').filter(item => item.trim() !== '');
+    for (let i = 0; i < 19; i++) {
+        for (let j = 0; j < 25; j++) {
+            di[i][j] = k;
+        }
+    }
+    // 每3个元素为一组(x, y, type)
+    for (let ii = 0; ii < dataArray.length; ii += 3) {
+        if (ii + 2 >= dataArray.length) break; // 确保有足够的数据
+        
+        let y = parseInt(dataArray[ii]);
+        let x = parseInt(dataArray[ii+1]);
+        let type = parseInt(dataArray[ii+2]);
+        
+        // 坐标除以32并取整
+        let i = Math.floor(x / 32);
+        let j = 24 - Math.floor(y / 32);
+        
+        if(type == 1){
+            di[i][j] = z
+        }
+        if(type == 3){
+            di[i][j] = cw
+        }
+        if(type == 4){
+            di[i][j] = cd
+        }
+        if(type == 5){
+            di[i][j] = ca
+        }
+        if(type == 6){
+            di[i][j] = cs
+        }
+        if(type == 20){
+            di[i][j] = qi
+            cud = {i,j}
+        }
+        if(type == 21){
+            di[i][j] = zo
+            zod = {i,j}
+        }
+    }
+    回调()
+}
+
